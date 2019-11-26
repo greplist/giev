@@ -44,7 +44,7 @@ class Graph:
         return pathCost
 
     def showPath(self, path):
-        G = nx.DiGraph()
+        G = nx.Graph()
         for vrt in self.getVertices():
             for adj in self.getAdjacent(vrt):
                 G.add_edge(vrt, adj, weight=self.graph[vrt][adj])
@@ -55,7 +55,8 @@ class Graph:
         pos = nx.spring_layout(G)
         nx.draw_networkx_nodes(G, pos)
         nx.draw_networkx_edges(G, pos, edgelist=baseEdges, edge_color='b')
-        nx.draw_networkx_edges(G, pos, edgelist=pathEdges, arrowstyle='->')
+        nx.draw_networkx_edges(G, pos, edgelist=pathEdges)
+        # nx.draw_networkx_edges(G, pos, edgelist=pathEdges, arrowstyle='->')
 
         # nx.draw_networkx_edge_labels(G, pos)
         nx.draw_networkx_labels(G, pos, font_size=11, font_family='sans-serif')
