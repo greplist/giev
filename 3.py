@@ -1,5 +1,7 @@
 import math
 import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
 class Graph:
@@ -40,6 +42,26 @@ class Graph:
         for vrt, adj in zip(path, path[1:]):
             pathCost += self.graph[vrt][adj]
         return pathCost
+
+    def showPath(self, path):
+        G = nx.DiGraph()
+        for vrt in self.getVertices():
+            for adj in self.getAdjacent(vrt):
+                G.add_edge(vrt, adj, weight=self.graph[vrt][adj])
+
+        pathEdges = list([(a, b) for a, b in zip(path, path[1:])])
+        baseEdges = [(a, b) for (a, b, v) in G.edges(data=True) if (a, b) not in pathEdges]
+
+        pos = nx.spring_layout(G)
+        nx.draw_networkx_nodes(G, pos)
+        nx.draw_networkx_edges(G, pos, edgelist=baseEdges, edge_color='b')
+        nx.draw_networkx_edges(G, pos, edgelist=pathEdges, arrowstyle='->')
+
+        # nx.draw_networkx_edge_labels(G, pos)
+        nx.draw_networkx_labels(G, pos, font_size=11, font_family='sans-serif')
+
+        plt.axis('off')
+        plt.show()
 
 
 class GeneticSalesman:
@@ -153,12 +175,14 @@ def main():
     graph.setAdjacent('d', 'e', 6)
 
     ga_tsp = GeneticSalesman(
-        generations=20, population_size=10,
+        generations=100, population_size=10,
         tournamentSize=2, mutationRate=0.2,
         elitismRate=0.1)
     
     optimal_path, path_cost = ga_tsp.run(graph)
     print ('\nresult: path: {0}, cost: {1}'.format(optimal_path, path_cost))
+
+    graph.showPath(optimal_path)
 
 
 if __name__ == '__main__':

@@ -18,4 +18,5 @@ python3 -m venv venv
 # run in virtualenv
 pip install gaft \
             numpy \
-            matplotlib
+            matplotlib \
+            networkx
