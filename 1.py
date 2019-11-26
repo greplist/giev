@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-Find the global maximum for function: f(x) = x + 10sin(5x) + 7cos(4x)
-'''
-
 import math
 import numpy as np
 import matplotlib
